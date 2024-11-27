@@ -1,6 +1,6 @@
 <h1>Create a New Restaurant</h1>
 
-<%= form_with(model: @restaurant, local: true) do |form| %>
+<%= simple_form_for(@restaurant) do |form| %>
   <% if @restaurant.errors.any? %>
     <div class="errors">
       <h2><%= pluralize(@restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2>
@@ -12,28 +12,13 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+  <%= form.input :name %>
+  <%= form.input :address %>
+  <%= form.input :phone_number, input_html: { placeholder: 'e.g., +49 123 456 7890' } %>
+  <%= form.input :category, collection: ['chinese', 'italian', 'japanese', 'french', 'belgian'], prompt: 'Select a category' %>
 
   <div>
-    <%= form.label :address %>
-    <%= form.text_field :address %>
-  </div>
-
-  <div>
-    <%= form.label :phone_number %>
-    <%= form.text_field :phone_number %>
-  </div>
-
-  <div>
-    <%= form.label :category %>
-    <%= form.select :category, ['chinese', 'italian', 'japanese', 'french', 'belgian'] %>
-  </div>
-
-  <div>
-    <%= form.submit "Create Restaurant" %>
+    <%= form.submit "Create Restaurant", class: "btn btn-primary" %>
   </div>
 <% end %>
 
