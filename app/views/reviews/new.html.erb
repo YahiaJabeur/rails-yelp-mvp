@@ -1,23 +1,27 @@
-<h1>Write a Review for <%= @restaurant.name %></h1>
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Write a Review for <%= @restaurant.name %></h1>
 
-<%= simple_form_for([@restaurant, @review]) do |form| %>
-  <% if @review.errors.any? %>
-    <div class="errors">
-      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
-      <ul>
-        <% @review.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= simple_form_for([@restaurant, @review], html: { class: 'card p-4 shadow' }) do |form| %>
+    <% if @review.errors.any? %>
+      <div class="alert alert-danger">
+        <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+        <ul>
+          <% @review.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.input :rating, collection: 0..5, as: :select, prompt: 'Select a rating (0 to 5)', input_html: { class: 'form-select' } %>
+    <%= form.input :content, as: :text, input_html: { rows: 5, placeholder: 'Write your review here...', class: 'form-control' } %>
+
+    <div class="text-center mt-4">
+      <%= form.submit "Submit Review", class: "btn btn-primary btn-lg" %>
     </div>
   <% end %>
 
-  <%= form.input :rating, collection: 0..5, as: :select, prompt: 'Select a rating (0 to 5)' %>
-  <%= form.input :content, as: :text, input_html: { rows: 5, placeholder: 'Write your review here...' } %>
-
-  <div>
-    <%= form.submit "Submit Review", class: "btn btn-primary" %>
+  <div class="mt-4 text-center">
+    <%= link_to 'Back to Restaurant', restaurant_path(@restaurant), class: "btn btn-secondary" %>
   </div>
-<% end %>
-
-<%= link_to 'Back to Restaurant', restaurant_path(@restaurant) %>
+</div>
